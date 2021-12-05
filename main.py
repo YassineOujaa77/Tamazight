@@ -1,123 +1,159 @@
-import pygame
-import os
-import time
+#Modules used
+from tkinter import *
+from tkinter import filedialog
+from tkinter import ttk
+
+#My tools
+import Lexer
+import Parser
+
+#Variables
+root_bg = ('#393939', '#DDDDDD')
+bg_lines = ("#232323", "#FEFEFE")
+bg_text = ("#121212", "#EDEDED")
+textcolor = ("lightgreen", "black")
+active_color = ("lightgreen", "black")
+insert_color = ('#EEEEEE', '#111111')
+variables_bg = ('#343434', '#DCDCDC')
+h = 33
+w = 150
+color = 0
+
+#Functions
+def save_as():
+    global text
+    t = text.get("1.0", "end-1c")
+    ftypes = [('Codat b darija', '.darija'),('All files', '*')]
+    savelocation=filedialog.asksaveasfilename(filetypes=ftypes,defaultextension=".darija")
+    file1=open(savelocation, "w+")
+    file1.write(t)
+    file1.close()
+
+def open_file():
+    global text
+    file_path = filedialog.askopenfilename()
+    file_name = file_path.split("/")
+    with open(file_path,'r') as file:
+        data = file.read()
+        text.delete("1.0", END)
+        text.insert(END,data)
+        root.title("IDE b darija: {0}".format(file_name[-1]))
+
+def run_code():
+    global text
+    Lexer.build_lexer(text.get("1.0","end"))
+
+def run_parser():
+    global text
+    empty_variables()
+    source_code = ""
+    source_code = text.get("1.0", "end")
+    Parser.run_the_code(source_code) #ll=
+    update_variables()
 
 
-pygame.init()
-WIDTH, HEIGHT = 760, 500
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("T++ COMPILER")
-clock = pygame.time.Clock()
-black = (0,0,0)
-bright_green =(169, 214, 229)
-bright_blue = (44, 125, 160)
-bright_red = (1, 42, 74)
+def insert_line_numbers():
+    global lines
+    data = ""
+    for i in range(1, 1000):
+        data += str(i) + "\n"
+    lines.insert(END,data)
 
+def viewall(*args):
+    global lines, text
+    lines.yview(args[0])
+    text.yview(args[0])
 
+def update_variables():
+    global variables
+    vs = Parser.variables
 
+    data = "Motaghayriat dyalk\n\n"
+    #Get data
+    for k in vs:
+        line = f'{str(vs[k].get_type())} := {vs[k].get_name()} := {vs[k].get_value()} \n\n'
+        data += line
 
-# Data needed for project as colors and images
-WHITE = (255,255,255)
-DRACULA = (57,57,57)
-SIDEBAR_DRACULA = (77, 80, 82)
-FPS = 60
-LOGO_IMG = pygame.image.load(os.path.join('images','compiler.jpg'))
-BACKGROUND_IMG = pygame.image.load(os.path.join('images','background.png'))
-LOGO = pygame.transform.scale(LOGO_IMG,(120,120))
-BACK = pygame.transform.scale(BACKGROUND_IMG,(760,500))
+    #Update the widget
+    variables.configure(state='normal')
+    variables.delete("1.0", END)
+    variables.insert(END, data)
+    variables.configure(state='disabled')
 
+def empty_variables():
+    Parser.variables.clear()
+    update_variables()
 
-
-
-def button(msg,x,y,w,h,ic,ac,action=None):
-    mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
-    if x+w>mouse[0]>x and y+h>mouse[1]>y:
-        pygame.draw.rect(WIN,ac,(x,y,w,h))
-        if click[0] == 1 and action!= None:
-            if action == "play":
-                main()
-            elif action == "quit":
-                pygame.quit()
-                quit()
-                sys.exit()
-            elif action == "intro":
-                introduction()
-            elif action == "menu":
-                intro_loop()
-
+def change_colors():
+    global variables, text, lines, color
+    if color == 0:
+        color = 1
     else:
-        pygame.draw.rect(WIN,ic,(x,y,w,h))
-    smalltext = pygame.font.Font("freesansbold.ttf",20)
-    textsurf,textrect = text_objects(msg,smalltext,WHITE)
-    textrect.center = ((x+(w/2)),(y+(h/2)))
-    WIN.blit(textsurf, textrect)
+        color = 0
+    variables.configure(bg=variables_bg[color])
+    variables.configure(fg=textcolor[color])
+    text.configure(bg=bg_text[color])
+    text.configure(fg=textcolor[color])
+    text.configure(insertbackground=insert_color[color])
+    lines.configure(bg=bg_lines[color])
+    lines.configure(fg=textcolor[color])
+
+def run_interpreter():
+    is_running = True
+    while is_running:
+        try:
+            s = input(">>> ")
+        except EOFError:
+            break
+        if s != "khrej()":
+            Parser.build_parser(s)
+        elif s == "khrej()":
+            print("Nihayat al barnamaj ila li9a2")
+            is_running = False
+
+#IDE Implementation
+root = Tk()
+
+root.title("IDE b darija: Untitled")
+root.configure(bg=root_bg[color])
 
 
-def text_objects(text,font,color):
-    textsurface = font.render(text,True,color)
-    return textsurface,textsurface.get_rect()
+#Line numbers
+lines = Text(root, background=bg_lines[color], foreground=textcolor[color], pady=5, padx=5, width=5, height=h, insertbackground="#ffffff")
+lines.grid(row=0, column=0, sticky=(N, W, E, S))
+insert_line_numbers()
+lines.configure(state='disabled')
 
 
+#Text widget
+text = Text(root, background=bg_text[color], foreground=textcolor[color], pady=5, padx=5, width=w, height=h, insertbackground=insert_color[color])
+text.grid( row=0, column=1, sticky=(N, W, E, S))
+
+#Variables used
+variables = Text(root, background=variables_bg[color], foreground=textcolor[color], height=h, pady=5, padx=15)
+variables.grid(row=0, column=3, sticky=(N, W, E, S))
+variables_title = "Motaghayriat dyalk"
+variables.insert(END,variables_title)
+variables.configure(state='disabled')
 
 
-def intro_loop():
-    intro = True
+#Same scrolling for the two text widgets
+rolly = ttk.Scrollbar(root, orient=VERTICAL, command=viewall)
+text['yscrollcommand'] = rolly.set
+lines['yscrollcommand'] = rolly.set
+rolly.grid(row=0, column=2, sticky=(N, W, E, S))
 
-    while intro:
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-                sys.exit()
-        WIN.blit(BACK,(0,0))
-        largeText = pygame.font.Font('freesansbold.ttf',80)
-        TextSurf , TextRect = text_objects("T++ Compiler",largeText,black)
-        TextRect.center = (400,100)
-        WIN.blit(TextSurf,TextRect)
-        button("START",150,420,100,50,bright_green,bright_green,"play")
-        button("QUIT",550,420,100,50,bright_red,bright_red,"quit")
-        button("INSTRUCTION",300,420,200,50,bright_blue,bright_blue,"intro")
-        pygame.display.update()
-        clock.tick(FPS)
-
-def draw_window(color,pos):
-    WIN.fill(color)
-    WIN.blit(LOGO,pos)
-    pygame.display.update()
+#Menu
+menubar = Menu(root, activebackground=active_color[color])
+menubar.add_command(label=" Fte7 ", command=open_file)
+menubar.add_command(label=" Sjjl  ", command=save_as)
+menubar.add_command(label=" Khwi Motaghayirat ", command=empty_variables)
+menubar.add_command(label=" Bddel Lwanat ", command=change_colors)
+menubar.add_command(label=" Lexer  ", command=run_code)
+menubar.add_command(label=" Khddm  ", command=run_parser)
+menubar.add_command(label=" Moshaghil  ", command=run_interpreter)
+root.config(menu=menubar)
 
 
-def main():
-    intro = True
-    while intro:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-                sys.exit()
-        WIN.fill(DRACULA)
-        WIN.blit(LOGO,(0,0))
-        button("BACK",10,400,100,50,bright_green,bright_blue,"menu")
-        pygame.display.update()
-        clock.tick(FPS)
-
-
-def introduction():
-    intro = True
-    while intro:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-                sys.exit()
-        WIN.fill(WHITE)
-        WIN.blit(LOGO,(320,0))
-        button("BACK",30,400,100,50,bright_green,bright_blue,"menu")
-        pygame.display.update()
-        clock.tick(FPS)
-
-
-#
-
-intro_loop()
+#Loop
+root.mainloop()
