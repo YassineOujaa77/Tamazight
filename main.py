@@ -98,7 +98,7 @@ def main():
                 sys.exit()
         WIN.fill(DRACULA)
         WIN.blit(LOGO,(0,0))
-        button("BACK",30,400,100,50,bright_green,bright_blue,"menu")
+        button("BACK",10,400,100,50,bright_green,bright_blue,"menu")
         pygame.display.update()
         clock.tick(FPS)
 
