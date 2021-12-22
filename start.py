@@ -1,6 +1,8 @@
 import pygame
 import os
 import time
+import webbrowser
+
 
 
 
@@ -78,9 +80,9 @@ def intro_loop():
         TextSurf , TextRect = text_objects("T++ Compiler",largeText,black)
         TextRect.center = (400,100)
         WIN.blit(TextSurf,TextRect)
-        button("START",150,420,100,50,bright_green,bright_green,"play")
-        button("QUIT",550,420,100,50,bright_red,bright_red,"quit")
-        button("INSTRUCTION",300,420,200,50,bright_blue,bright_blue,"intro")
+        button("START",150,420,100,50,(111, 114, 117),bright_blue,"play")
+        button("QUIT",550,420,100,50,bright_red,(111, 114, 117),"quit")
+        button("INSTRUCTION",300,420,200,50,bright_blue,bright_red,"intro")
         pygame.display.update()
         clock.tick(FPS)
 
@@ -91,26 +93,40 @@ def draw_window(color,pos):
 
 
 def main():
-     intro = True
-    
-     while intro:
-         for event in pygame.event.get():
-             if event.type == pygame.QUIT:
-                 pygame.quit()
-                 quit()
-                 sys.exit()
-         WIN.fill(DRACULA)
-         WIN.blit(LOGO,(320,0))
-         button("BACK",10,400,100,50,bright_green,bright_blue,"menu")
-         pygame.display.update()
-         clock.tick(FPS)
-     print("Hello man")
-    
-    
+     # intro = True
+     #
+     # while intro:
+     #     for event in pygame.event.get():
+     #         if event.type == pygame.QUIT:
+     #             pygame.quit()
+     #             quit()
+     #             sys.exit()
+     #     WIN.fill(DRACULA)
+     #     WIN.blit(LOGO,(320,0))
+     #     button("BACK",10,400,100,50,bright_green,bright_blue,"menu")
+     #     pygame.display.update()
+     #     clock.tick(FPS)
+     # print("Hello man")
+     def exec_full(filepath):
+
+         global_namespace = {
+             "__file__": filepath,
+             "__name__": "__main__",
+         }
+         with open(filepath, 'rb') as file:
+             exec(compile(file.read(), filepath, 'exec'), global_namespace)
+
+     exec_full("main.py")
+
+
+
+
 
 
 def introduction():
     intro = True
+    link_color = (0, 0, 0)
+
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -122,7 +138,25 @@ def introduction():
         button("BACK",30,400,100,50,bright_green,bright_blue,"menu")
         largeText = pygame.font.Font('freesansbold.ttf',30)
         TextSurf , TextRect = text_objects("Our Language Documentation : ",largeText,black)
-	#TextSurf , TextRect = text_objects("https://ayoubkassi.cd",largeText,black)
+        link_font = pygame.font.SysFont('Consolas', 50)
+        rect = WIN.blit(link_font.render("Click Here", True, link_color), (220, 250))
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = event.pos
+
+                if rect.collidepoint(pos):
+                    webbrowser.open(r"https://github.com/Ayoubkassi/Tamazight")
+
+        if rect.collidepoint(pygame.mouse.get_pos()):
+            link_color = (70, 29, 219)
+
+        else:
+            link_color = (0, 0, 0)
+
         TextRect.center = (400,160)
         WIN.blit(TextSurf,TextRect)
         pygame.display.update()
