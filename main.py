@@ -8,11 +8,11 @@ import Lexer
 import Parser
 
 #Variables
-root_bg = ('#393939', '#DDDDDD')
+root_bg = ('#ffffff', '#000000')
 bg_lines = ("#232323", "#FEFEFE")
 bg_text = ("#121212", "#EDEDED")
-textcolor = ("lightgreen", "black")
-active_color = ("lightgreen", "black")
+textcolor = ("white", "white")
+active_color = ("blue", "white")
 insert_color = ('#EEEEEE', '#111111')
 variables_bg = ('#343434', '#DCDCDC')
 h = 33
@@ -37,7 +37,7 @@ def open_file():
         data = file.read()
         text.delete("1.0", END)
         text.insert(END,data)
-        root.title("IDE b darija: {0}".format(file_name[-1]))
+        root.title("T++: {0}".format(file_name[-1]))
 
 def run_code():
     global text
@@ -114,7 +114,7 @@ def run_interpreter():
 #IDE Implementation
 root = Tk()
 
-root.title("IDE b darija: Untitled")
+root.title("T++ Tamazight ++: Untitled")
 root.configure(bg=root_bg[color])
 
 
@@ -156,4 +156,9 @@ root.config(menu=menubar)
 
 
 #Loop
-root.mainloop()
+
+def view_start():
+    root.mainloop()
+
+view_start()
+

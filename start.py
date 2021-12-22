@@ -4,6 +4,7 @@ import time
 
 
 
+
 pygame.init()
 WIDTH, HEIGHT = 760, 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -90,20 +91,22 @@ def draw_window(color,pos):
 
 
 def main():
-    intro = True
+     intro = True
     
-    while intro:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-                sys.exit()
-        WIN.fill(DRACULA)
-        WIN.blit(LOGO,(320,0))
-        button("BACK",10,400,100,50,bright_green,bright_blue,"menu")
-        pygame.display.update()
-        clock.tick(FPS)
-
+     while intro:
+         for event in pygame.event.get():
+             if event.type == pygame.QUIT:
+                 pygame.quit()
+                 quit()
+                 sys.exit()
+         WIN.fill(DRACULA)
+         WIN.blit(LOGO,(320,0))
+         button("BACK",10,400,100,50,bright_green,bright_blue,"menu")
+         pygame.display.update()
+         clock.tick(FPS)
+     print("Hello man")
+    
+    
 
 
 def introduction():
@@ -117,6 +120,11 @@ def introduction():
         WIN.fill(WHITE)
         WIN.blit(LOGO,(320,0))
         button("BACK",30,400,100,50,bright_green,bright_blue,"menu")
+        largeText = pygame.font.Font('freesansbold.ttf',30)
+        TextSurf , TextRect = text_objects("Our Language Documentation : ",largeText,black)
+	#TextSurf , TextRect = text_objects("https://ayoubkassi.cd",largeText,black)
+        TextRect.center = (400,160)
+        WIN.blit(TextSurf,TextRect)
         pygame.display.update()
         clock.tick(FPS)
 
