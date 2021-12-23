@@ -8,23 +8,23 @@ import Lexer
 import Parser
 
 #Variables
-root_bg = ('#ffffff', '#000000')
-bg_lines = ("#232323", "#FEFEFE")
-bg_text = ("#121212", "#EDEDED")
-textcolor = ("white", "white")
+root_bg = ('#b6daf2', 'black')
+bg_lines = ("#293136", "#34434d")
+bg_text = ("#293136", "#EDEDED")
+textcolor = ("white", "#c235de")
 active_color = ("blue", "white")
 insert_color = ('#EEEEEE', '#111111')
 variables_bg = ('#343434', '#DCDCDC')
-h = 33
+h = 39
 w = 150
-color = 0
+color = 1
 
 #Functions
 def save_as():
     global text
     t = text.get("1.0", "end-1c")
-    ftypes = [('Codat b darija', '.darija'),('All files', '*')]
-    savelocation=filedialog.asksaveasfilename(filetypes=ftypes,defaultextension=".darija")
+    ftypes = [('Tamazight Code', '.tpp'),('All files', '*')]
+    savelocation=filedialog.asksaveasfilename(filetypes=ftypes,defaultextension=".tpp")
     file1=open(savelocation, "w+")
     file1.write(t)
     file1.close()
@@ -161,4 +161,3 @@ def view_start():
     root.mainloop()
 
 view_start()
-
