@@ -11,9 +11,9 @@ errors = (
     (2, "motaghayir makaynsh"),
     (3, "variable dyalk mashi mn nfs nou3 alkhawa"),
     (4, "machi 3adad rkkez al khawa"),
-    (5, "had ma7ed dyalk 3merha tsala"),
-    (6, "Ta malk baghi dkhl shi f shi ?"),
-    (7, "Ghltti fl i3dadat d dalla a batal")
+    (5, "had ma7d dyalk 3merha tsala"),
+    (6, "Ta malk baghi chkechm shi f shi ?"),
+    (7, "Ghltti fl i3dadat d tari9a a batal")
 )
 
 
@@ -24,10 +24,10 @@ class variable:
         self.dictionary["type"] = typee
         if typee == "sahih":
             self.dictionary["value"] = int(value)
-        elif typee == "achari":
+        elif typee == "3achari":
             self.dictionary["value"] = float(value)
         elif typee == "manti9i":
-            if value == 'vri':
+            if value == 'vre':
                 self.dictionary["value"] = True
             elif value == 'ffo':
                 self.dictionary["value"] = False
@@ -69,10 +69,10 @@ class function:
                 typee = par.split(" ")[0]
                 if typee == "sahih":
                     value = int(value)
-                elif typee == "achari":
+                elif typee == "3achari":
                     value = float(value)
                 elif typee == "manti9i":
-                    if value == "vri":
+                    if value == "vre":
                         value = True
                     else:
                         value = False
@@ -101,7 +101,7 @@ class function:
                 if r is not None and r != True and r != False:
                     print(r)
                 elif r is not None and r == True:
-                    print('vri')
+                    print('vre')
                 elif r is not None and r == False:
                     print('ffo')
         for k in self.parameters:
@@ -389,7 +389,7 @@ def p_statement_assign_var(p):
                 #p[0] = found.get_value()
             else:
                 print("l motaghayyir dyalk rah {0}".format(found.get_type()))
-        elif found.get_type() == "achari":
+        elif found.get_type() == "3achari":
             if isinstance(p[3], float):
                 found.set_value(p[3])
             else:
@@ -400,7 +400,7 @@ def p_statement_assign_var(p):
             else:
                 print("l motaghayyir dyalk rah {0}".format(found.get_type()))
         elif found.get_type() == "manti9i":
-            if p[3] == 'vri':
+            if p[3] == 'vre':
                 found.set_value(True)
                 # p[0] = True
             elif p[3] == 'ffo':
@@ -425,7 +425,7 @@ def p_increment_var(p):
         if found.get_type() == "sahih":
             found.set_value(found.get_value() + 1)
             p[0] = None
-        elif found.get_type() == "achari":
+        elif found.get_type() == "3achari":
             found.set_value(found.get_value() + 1.0)
             p[0] = None
         else:
@@ -444,7 +444,7 @@ def p_decrement_var(p):
         if found.get_type() == "sahih":
             found.set_value(found.get_value() - 1)
             p[0] = found.get_value()
-        elif found.get_type() == "achari":
+        elif found.get_type() == "3achari":
             found.set_value(found.get_value() - 1.0)
             p[0] = found.get_value()
         else:
@@ -493,7 +493,7 @@ def p_input_statement(p):
         except:
             print(errors[0][1])
             pass
-    elif p[1] == "achari":
+    elif p[1] == "3achari":
         try:
             value = float(value)
             done = True
@@ -605,7 +605,7 @@ def p_compare_id_value(p):
     '''
     found = variable_exists(p[1])
     if found is not None:
-        if found.get_type() == 'achari' or found.get_type() == 'sahih':
+        if found.get_type() == '3achari' or found.get_type() == 'sahih':
             value = found.get_value()
         else:
             print('mat9drsh dir had l mo9arana al khawa')
@@ -662,7 +662,7 @@ def p_bool_comparison(p):
     '''
     # Check if the second operand is a variable and if it is the case, check if it exists
     can = False
-    if p[3] != "vri" and p[3] != "ffo":
+    if p[3] != "vre" and p[3] != "ffo":
         found_two = variable_exists(p[3])
         if found_two is not None:
             if found_two.get_type() == 'manti9i':
@@ -673,7 +673,7 @@ def p_bool_comparison(p):
         else:
             print('{0} mam3rfash al khawa'.format(p[3]))
 
-    elif p[3] == 'vri':
+    elif p[3] == 'vre':
         value_two = True
     elif p[3] == 'ffo':
         value_two = False
@@ -718,10 +718,10 @@ def p_IF(p):
     '''
     if p[3] == True:
         for pp in p[6]:
-            if pp != 'hbes':
+            if pp != 'bed':
                 print(pp)
-        if 'hbes' in p[6]:
-            p[0] = 'hbes'
+        if 'bed' in p[6]:
+            p[0] = 'bed'
         else:
             p[0] = None
     else:
@@ -734,10 +734,10 @@ def p_if_else_if(p):
     '''
     if p[3] == True:
         for pp in p[6]:
-            if pp != 'hbes':
+            if pp != 'bed':
                 print(pp)
-        if 'hbes' in p[6]:
-            p[0] = 'hbes'
+        if 'bed' in p[6]:
+            p[0] = 'bed'
         else:
             p[0] = None
     else:
@@ -752,18 +752,18 @@ def p_IF_ELSE(p):
     '''
     if p[3] == True:
         for pp in p[6]:
-            if pp != 'hbes':
+            if pp != 'bed':
                 print(pp)
-        if 'hbes' in p[6]:
-            p[0] = 'hbes'
+        if 'bed' in p[6]:
+            p[0] = 'bed'
         else:
             p[0] = None
     else:
         for pp in p[10]:
-            if pp != 'hbes':
+            if pp != 'bed':
                 print(pp)
-        if 'hbes' in p[10]:
-            p[0] = 'hbes'
+        if 'bed' in p[10]:
+            p[0] = 'bed'
         else:
             p[0] = None
 
@@ -790,7 +790,7 @@ def p_break_statement(p):
     '''
         break_statement : BREAK SEMICOL
     '''
-    p[0] = ['hbes']
+    p[0] = ['bed']
 
 
 # Arithmetic operations
@@ -868,7 +868,7 @@ def build_parser(source):
         #    continue
         return
     # WHILE STATEMENT
-    if "ma7ed" in s:
+    if "ma7d" in s:
         prestatements = s.split("{")
         statements = ""
         for i in range(1, len(prestatements)):
@@ -893,14 +893,14 @@ def build_parser(source):
                 break
             if result != None:
                 for r in result:
-                    if r is not None and r != 'hbes':
+                    if r is not None and r != 'bed':
                         print(r)
-                    elif r is not None and r == 'hbes':
+                    elif r is not None and r == 'bed':
                         is_looping = False
                         break
 
     # FOR STATEMENT
-    elif "fkoula" in s:
+    elif "t3awd" in s:
         var = s.split("(")[1].split(")")[0].split(";")[0] + ";"
         condition = s.split("(")[1].split(")")[0].split(";")[1]
         inc = str(s.split("(")[1].split(")")[0].split(";")[2] + ";")
@@ -912,18 +912,18 @@ def build_parser(source):
             result = parser.parse(statements)
             if result is not None:
                 for r in result:
-                    if r is not None and r != "hbes":
+                    if r is not None and r != "bed":
                         print(r)
-                    elif r is not None and r == "hbes":
+                    elif r is not None and r == "bed":
                         is_looping = False
                         break
             parser.parse(inc)
 
     # FUNCTION DECLARATIONS
-    elif "dalla" in s:
+    elif "tari9a" in s:
         parameters = s[s.index("(") + 1: s.index(")")]
         tasks = s[s.index("{") + 1: s.index("}")]
-        func_name = s[s.index("dalla") + 6: s.index("(")]
+        func_name = s[s.index("tari9a") + 6: s.index("(")]
         functionn = function(func_name, parameters, tasks)
         functions[func_name] = functionn
 
@@ -963,7 +963,7 @@ def build_parser(source):
                             continue
                     if '"' == par[0] and '"' == par[-1]:
                         listy.append(par)
-                    elif par == 'vri':
+                    elif par == 'vre':
                         listy.append(True)
                     elif par == 'ffo':
                         listy.append(False)
@@ -986,15 +986,15 @@ def build_parser(source):
                 if r is not None and r != True and r != False:
                     print(r)
                 elif r is not None and r == True:
-                    print('vri')
+                    print('vre')
                 elif r is not None and r == False:
                     print('ffo')
 
 
 def blockify(source):
     blocks = []
-    b = [ "dalla ","ila ", "ma7ed ", "fkoula "]
-    s = ["ktab", "dkhl", "dir", "sahih", "achari", "manti9i", "marka", "harf", "jme3lia", "qyas"]
+    b = [ "tari9a ","ila ", "ma7d ", "t3awd "]
+    s = ["ara", "chkechm", "dir", "sahih", "3achari", "manti9i", "naw3", "harf", "iti7ad", "ch7alkaynf"]
     i = 0
     j = 0
     while i < len(source):
@@ -1003,7 +1003,7 @@ def blockify(source):
         while j < len(source):
             key = source[i: j+1]
             # Blocks Of Nested Statements
-            if "fkoula" in key or "ila" in key or "ma7ed" in key or "dalla" in key:
+            if "t3awd" in key or "ila" in key or "ma7d" in key or "tari9a" in key:
                 o = 0
                 e = 0
                 for k in range(j+1, len(source)):
@@ -1017,7 +1017,7 @@ def blockify(source):
                         i = k + 1
                         break
             #Ordinary statements
-            elif "ktab"  in key or "dkhl" in key or "dir" in key or  "sahih" in key or "achari" in key or  "manti9i" in key or  "marka" in key or "harf" in key or "jme3lia" in key or "qyas" in key:
+            elif "ara"  in key or "chkechm" in key or "dir" in key or  "sahih" in key or "3achari" in key or  "manti9i" in key or  "naw3" in key or "harf" in key or "iti7ad" in key or "ch7alkaynf" in key:
                 for k in range(j+1, len(source)):
                     if source[k] == ";":
                         block = source[i:k+1]
@@ -1035,4 +1035,4 @@ def run_the_code(source):
     for l in listy:
         if l != '' and l != " " and l != "  " and l != "\n" and l != "\n\n" and l != "\n\n\n":
             build_parser(l)
-    print("--------------------------------------------------------------------------------")
+    print("-----------------------------------------------------------------")
