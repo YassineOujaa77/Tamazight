@@ -1,24 +1,24 @@
 #ala 7asiba
 
-tbe3("Hadi ala 7asiba");
+ktab("Hadi ala 7asiba");
 
-tbe3("3tini 3adad lwl");
+ktab("3tini 3adad lwl");
 sahih a = dkhl(sahih);
 
-tbe3("3tini 3adad tani");
+ktab("3tini 3adad tani");
 sahih b = dkhl(sahih);
 
-tbe3("a + b");
-tbe3(a + b);
+ktab("a + b");
+ktab(a + b);
 
-tbe3("a - b");
-tbe3(a - b);
+ktab("a - b");
+ktab(a - b);
 
-tbe3("a * b");
-tbe3(a * b);
+ktab("a * b");
+ktab(a * b);
 
-tbe3("a / b");
-tbe3(a / b);
+ktab("a / b");
+ktab(a / b);
 
-tbe3("a % b");
-tbe3(a % b);
+ktab("a % b");
+ktab(a % b);
