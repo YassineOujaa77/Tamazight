@@ -994,7 +994,7 @@ def build_parser(source):
 def blockify(source):
     blocks = []
     b = [ "dalla ","ila ", "ma7ed ", "fkoula "]
-    s = ["tbe3", "dkhl", "dir", "sahih", "achari", "manti9i", "marka", "harf", "jme3lia", "qyas"]
+    s = ["ktab", "dkhl", "dir", "sahih", "achari", "manti9i", "marka", "harf", "jme3lia", "qyas"]
     i = 0
     j = 0
     while i < len(source):
@@ -1017,7 +1017,7 @@ def blockify(source):
                         i = k + 1
                         break
             #Ordinary statements
-            elif "tbe3"  in key or "dkhl" in key or "dir" in key or  "sahih" in key or "achari" in key or  "manti9i" in key or  "marka" in key or "harf" in key or "jme3lia" in key or "qyas" in key:
+            elif "ktab"  in key or "dkhl" in key or "dir" in key or  "sahih" in key or "achari" in key or  "manti9i" in key or  "marka" in key or "harf" in key or "jme3lia" in key or "qyas" in key:
                 for k in range(j+1, len(source)):
                     if source[k] == ";":
                         block = source[i:k+1]

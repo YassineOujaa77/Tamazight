@@ -6,7 +6,7 @@ literals = ('{', '}')
 #A list of reserved words
 reserved = {
     'error'       : 'ID',
-    'tbe3'        : 'PRINT',
+    'ktab'        : 'PRINT',
     'sahih'       : 'INT',
     'hbes'        : 'BREAK', 
     'dkhl'        : 'INPUT',
@@ -145,7 +145,7 @@ def t_eof(t):
     elif more=="khrej()":
         return None
     elif more=="khrej":
-        more = input("Wach bghiti tgol khrej()?\n>>> ")
+        more = input("yaskma bghiti tkhrej khask tktab khrej()?\n>>> ")
     return None
 
 lexer = lex.lex()
@@ -156,6 +156,6 @@ def build_lexer(source_code):
     while True:
         tok = lexer.token()
         if not tok:
-            print("Nihayat l barnamaj, ila lli9a2")
+            print("lcode sala thla liya frask")
             break  
         print(tok)

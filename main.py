@@ -108,7 +108,7 @@ def run_interpreter():
         if s != "khrej()":
             Parser.build_parser(s)
         elif s == "khrej()":
-            print("Nihayat al barnamaj ila li9a2")
+            print("lcode sala thla liya frask")
             is_running = False
 
 #IDE Implementation
@@ -144,7 +144,7 @@ lines['yscrollcommand'] = rolly.set
 rolly.grid(row=0, column=2, sticky=(N, W, E, S))
 
 #Menu
-menubar = Menu(root, activebackground=active_color[color])
+menubar = Menu(root, activebackground=active_color[color],tearoff=1)
 menubar.add_command(label=" Fte7 ", command=open_file)
 menubar.add_command(label=" Sjjl  ", command=save_as)
 menubar.add_command(label=" Khwi Motaghayirat ", command=empty_variables)
